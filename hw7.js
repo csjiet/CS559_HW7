@@ -335,6 +335,7 @@ function start() {
       image1.onload = function() { loadTexture(image1,texture1); };
       image1.crossOrigin = "anonymous";
       image1.src = "https://farm6.staticflickr.com/5564/30725680942_e3bfe50e5e_b.jpg"; // dog
+      //image1.src = "https://farm6.staticflickr.com/65535/51743905629_b4f643b3af_b.jpg";
 
       image2.onload = function() { loadTexture(image2,texture2); };
       image2.crossOrigin = "anonymous";
