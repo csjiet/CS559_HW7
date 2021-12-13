@@ -10,7 +10,9 @@ function start() {
     var slider2 = document.getElementById('slider2');
     slider2.value = 0;
 
-    var button1 = document.getElementById('button1');
+
+    // Number of vertices per cylinder
+    var numberOfVerticesInXY = 10; 
 
 
     // Read shader source
@@ -67,19 +69,8 @@ function start() {
     shaderProgram.texSampler3 = gl.getUniformLocation(shaderProgram, "texSampler3");
     gl.uniform1i(shaderProgram.texSampler3, 2);
 
-    // Data ...
-
-    var numberOfVerticesInXY = 30; // 50 good effect
-    
-    // vertex positions
-    // var vertexPos = new Float32Array( // CHANGED
-    //     [  1, 1, 1,  -1, 1, 1,  -1,-1, 1,   1,-1, 1,
-    //        1, 1, 1,   1,-1, 1,   1,-1,-1,   1, 1,-1,
-    //        1, 1, 1,   1, 1,-1,  -1, 1,-1,  -1, 1, 1,
-    //       -1, 1, 1,  -1, 1,-1,  -1,-1,-1,  -1,-1, 1,
-    //       -1,-1,-1,   1,-1,-1,   1,-1, 1,  -1,-1, 1,
-    //        1,-1,-1,  -1,-1,-1,  -1, 1,-1,   1, 1,-1 ]);
-
+    // Mesh definitions
+    // This function identifies all the vertices to generate the mug
     function cylinderVertexPosGenerator(vertexPerCircle, height){
       var vertices = [];
       var r = 1;
@@ -87,8 +78,7 @@ function start() {
       var degree = 0;
       var degIncrement = 360/ vertexPerCircle;
 
-      // n face = n vertexPerCircle
-      // 4 vertex per face x n faces
+      // Iterates and draws vertices that make up the side of the cylinder
       for(let i = 0; i< vertexPerCircle; i++){
         let x = (r* Math.cos(degree * Math.PI / 180));
         let z = (r* Math.sin(degree * Math.PI / 180));
@@ -114,12 +104,12 @@ function start() {
 
       }
 
+      // Iterates and draws vertices that make up the base of the cylinder 
       degree = 0;
       for(let i = 0; i< vertexPerCircle; i++){
         let x = (r* Math.cos(degree * Math.PI / 180));
         let z = (r* Math.sin(degree * Math.PI / 180));
         
-        //let vertex1 = [x, y, z];
         let vertex1 = [x, -y, z];
         let vertex2 = [0, -y, 0];
         vertices.push(vertex1);
@@ -130,8 +120,7 @@ function start() {
 
         x = (r* Math.cos(degree * Math.PI / 180));
         z = (r* Math.sin(degree * Math.PI / 180));
-        
-        //let vertex3 = [x, y, z];
+
         let vertex3 = [x, -y, z];
         let vertex4 = [0, -y, 0];
         vertices.push(vertex3);
@@ -147,19 +136,10 @@ function start() {
       return new Float32Array(vertices);
     }
 
-    //console.log(cylinderVertexPosGenerator(4, 1));
+    var vertexPos = cylinderVertexPosGenerator(numberOfVerticesInXY,1);
 
-    var vertexPos = cylinderVertexPosGenerator(numberOfVerticesInXY,1); // Does not generate cube because missing faces
 
-    // vertex normals
-    // var vertexNormals = new Float32Array( // CHANGED
-    //     [  0, 0, 1,   0, 0, 1,   0, 0, 1,   0, 0, 1, 
-    //        1, 0, 0,   1, 0, 0,   1, 0, 0,   1, 0, 0, 
-    //        0, 1, 0,   0, 1, 0,   0, 1, 0,   0, 1, 0, 
-    //       -1, 0, 0,  -1, 0, 0,  -1, 0, 0,  -1, 0, 0, 
-    //        0,-1, 0,   0,-1, 0,   0,-1, 0,   0,-1, 0, 
-    //        0, 0,-1,   0, 0,-1,   0, 0,-1,   0, 0,-1  ]);
-
+    // This function identifies normal for all faces of the cylinder
     function cylinderVertexNormalGenerator(vertexPerCircle, height){
       var vertices = [];
       var r = 1;
@@ -167,6 +147,7 @@ function start() {
       var degree = 0;
       var degIncrement = 360/ vertexPerCircle;
 
+      // Iterates and identifies normal for side of the cylinder
       for(let i = 0; i< vertexPerCircle; i++){
         
         let x1 = (r* Math.cos(degree * Math.PI / 180));
@@ -186,6 +167,7 @@ function start() {
 
       }
 
+      // Iterates and identifies normal for the base of the cylinder
       degree = 0;
       for(let i = 0; i< vertexPerCircle; i++){
         
@@ -212,21 +194,13 @@ function start() {
     }
 
     var vertexNormals = cylinderVertexNormalGenerator(numberOfVerticesInXY,1);
-    //console.log(cylinderVertexNormalGenerator(4,1));
 
 
-    // vertex colors
-    // var vertexColors = new Float32Array( // CHANGED
-    //     [  0, 0, 1,   0, 0, 1,   0, 0, 1,   0, 0, 1,
-    //        1, 0, 0,   1, 0, 0,   1, 0, 0,   1, 0, 0,
-    //        0, 1, 0,   0, 1, 0,   0, 1, 0,   0, 1, 0,
-    //        1, 1, 0,   1, 1, 0,   1, 1, 0,   1, 1, 0,
-    //        1, 0, 1,   1, 0, 1,   1, 0, 1,   1, 0, 1,
-    //        0, 1, 1,   0, 1, 1,   0, 1, 1,   0, 1, 1 ]);
-
+    // This function assigns color to vertex attributes
     function cylinderVertexColorGenerator(vertexPerCircle, height){
       var vertices = [];
 
+      // Iterates and idenfities colors of each vertex that makes up the side of cylinder
       for(let i = 0; i< vertexPerCircle; i++){
         
         for(let e = 0; e< 4; e++){
@@ -235,6 +209,7 @@ function start() {
 
       }
 
+      // Iterates and idenfities colors of each vertex that makes up the base of cylinder
       for(let i = 0; i< vertexPerCircle; i++){
         
         for(let e = 0; e< 4; e++){
@@ -251,25 +226,18 @@ function start() {
     vertexColors = cylinderVertexColorGenerator(numberOfVerticesInXY,1);
 
 
-    
-    // vertex texture coordinates
-    // var vertexTextureCoords = new Float32Array( // CHANGED
-    //     [  0, 0,   1, 0,   1, 1,   0, 1,
-    //        1, 0,   1, 1,   0, 1,   0, 0,
-    //        0, 1,   0, 0,   1, 0,   1, 1,
-    //        0, 0,   1, 0,   1, 1,   0, 1,
-    //        1, 1,   0, 1,   0, 0,   1, 0,
-    //        1, 1,   0, 1,   0, 0,   1, 0 ]);
-
+    // This function identifies orientation of texture on each polygon (triangle)
     function cylinderVertexTextureCoordsGenerator(vertexPerCircle, height){
       var vertices = [];
 
+      // Iterates and renders texture to the side of the cylinder
       for(let i = 0; i< vertexPerCircle; i++){
         
         vertices.push([0, 0,   1, 0,   1, 1,   0, 1]);
 
       }
 
+      // Iterates and renders texture to base of the cylinder
       for(let i = 0; i< vertexPerCircle; i++){
         
         vertices.push([0, 0,   1, 0,   1, 1,   0, 1]);
@@ -283,25 +251,21 @@ function start() {
 
     var vertexTextureCoords = cylinderVertexTextureCoordsGenerator(numberOfVerticesInXY,1);
 
+    // TEST for cube of 4 sides
     // var vertexTextureCoords = new Float32Array( // CHANGED
     //   [  0, 0,   1, 0,   0, 1,   1, 1,
     //      0, 0,   1, 0,   0, 1,   1, 1,
     //      0, 0,   1, 0,   1, 1,   0, 1,
     //      0, 0,   1, 0,   1, 1,   0, 1]);
 
-    // element index array
-    // var triangleIndices = new Uint8Array( // CHANGED
-    //     [  0, 1, 2,   0, 2, 3,    // front
-    //        4, 5, 6,   4, 6, 7,    // right
-    //        8, 9,10,   8,10,11,    // top
-    //       12,13,14,  12,14,15,    // left
-    //       16,17,18,  16,18,19,    // bottom
-	  //     20,21,22,  20,22,23 ]); // back
 
+    // This function identifies the vertex number that makes up each polygon (triangle)
     function cylinderTriangleIndicesGenerator(vertexPerCircle, height){
       var vertices = [];
 
       var vNumber = 0;
+
+      // Iterates all vertices that makes up the mug
       for(let i= 0; i< vertexPerCircle*2; i++){
         var tI = [vNumber, vNumber+1, vNumber+2, vNumber, vNumber+2, vNumber+3];
         vNumber = vNumber + 4;
@@ -315,7 +279,7 @@ function start() {
 
     var triangleIndices = cylinderTriangleIndicesGenerator(numberOfVerticesInXY,1);
 
-
+    // TEST for cube of 4 sides
     // var triangleIndices = new Uint8Array( // CHANGED
     //     [  1, 2, 0,   0, 3, 2,    // front
     //        4, 5, 6,   4, 6, 7,    // right
@@ -385,15 +349,18 @@ function start() {
       image1.onload = function() { loadTexture(image1,texture1); };
       image1.crossOrigin = "anonymous";
       //image1.src = "https://farm6.staticflickr.com/5564/30725680942_e3bfe50e5e_b.jpg"; // dog
-      //image1.src = "https://farm6.staticflickr.com/65535/51742440237_078acccda6_b.jpg"; // redbull
-      image1.src = "https://farm6.staticflickr.com/5726/30206830053_87e9530b48_b.jpg"; // checkered box
+      //image1.src = "https://live.staticflickr.com/65535/51743890412_4e41a324ce_b.jpg"; // redbull
+      //image1.src = "https://farm6.staticflickr.com/5726/30206830053_87e9530b48_b.jpg"; // checkered box
       //image1.src = "https://live.staticflickr.com/65535/50641871583_53456f6ebc_b.jpg" //wood
+      image1.src = "https://live.staticflickr.com/65535/51744974313_b599e4e35d_b.jpg";
+      //image1.src = "https://live.staticflickr.com/65535/51745015808_9c0e2b0352_b.jpg";
       
 
       image2.onload = function() { loadTexture(image2,texture2); };
       image2.crossOrigin = "anonymous";
       //image2.src = "https://farm6.staticflickr.com/5726/30206830053_87e9530b48_b.jpg"; // checkered box
-      image2.src = "https://farm6.staticflickr.com/5323/30998511026_c90053af9c_o.jpg"; // bump
+      //image2.src = "https://farm6.staticflickr.com/5323/30998511026_c90053af9c_o.jpg"; // bump
+      image2.src = "https://live.staticflickr.com/65535/51744799156_0899e5dd38_b.jpg";
       
 
       image3.onload = function() { loadTexture(image3,texture3); };
@@ -410,17 +377,10 @@ function start() {
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
 
-      // Option 1 : Use mipmap, select interpolation mode
+      // Use mipmap, select interpolation mode
       gl.generateMipmap(gl.TEXTURE_2D);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
 
-      // Option 2: At least use linear filters
-      // gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-      // gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-
-      // Optional ... if your shader & texture coordinates go outside the [0,1] range
-      // gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-      // gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     }
 
     // Scene (re-)draw routine
@@ -489,14 +449,10 @@ function start() {
 
     }
 
-    function pepsi(){
-          
-      return null;
-    }
+    
 
     slider1.addEventListener("input",draw);
     slider2.addEventListener("input",draw);
-    button1.addEventListener("click", pepsi);
     initTextureThenDraw();
 }
 
