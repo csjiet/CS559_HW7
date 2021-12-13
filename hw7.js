@@ -262,28 +262,32 @@ function start() {
     gl.bindBuffer(gl.ARRAY_BUFFER, trianglePosBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, vertexPos, gl.STATIC_DRAW);
     trianglePosBuffer.itemSize = 3; // CHANGED
-    trianglePosBuffer.numItems = 24; // CHANGED
+    //trianglePosBuffer.numItems = 24; // CHANGED
+    trianglePosBuffer.numItems = 4 * numberOfVerticesInXY; // CHANGED
     
     // a buffer for normals
     var triangleNormalBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, triangleNormalBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, vertexNormals, gl.STATIC_DRAW);
     triangleNormalBuffer.itemSize = 3; // CHANGED
-    triangleNormalBuffer.numItems = 24; // CHANGED
+    //triangleNormalBuffer.numItems = 24; // CHANGED
+    triangleNormalBuffer.numItems = 4* numberOfVerticesInXY; // CHANGED
     
     // a buffer for colors
     var colorBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, vertexColors, gl.STATIC_DRAW);
     colorBuffer.itemSize = 3; // CHANGED
-    colorBuffer.numItems = 24; // CHANGED
+    //colorBuffer.numItems = 24; // CHANGED
+    colorBuffer.numItems = 4* numberOfVerticesInXY; // CHANGED
 
     // a buffer for textures
     var textureBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, textureBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, vertexTextureCoords, gl.STATIC_DRAW);
     textureBuffer.itemSize = 2; // CHANGED
-    textureBuffer.numItems = 24; // CHANGED
+    //textureBuffer.numItems = 24; // CHANGED
+    textureBuffer.numItems = 4* numberOfVerticesInXY; // CHANGED
 
     // a buffer for indices
     var indexBuffer = gl.createBuffer();
