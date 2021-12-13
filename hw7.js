@@ -64,7 +64,7 @@ function start() {
 
     // Data ...
 
-    var numberOfVerticesInXY = 4;
+    var numberOfVerticesInXY = 50;
     
     // vertex positions
     // var vertexPos = new Float32Array( // CHANGED
@@ -85,24 +85,27 @@ function start() {
       // n face = n vertexPerCircle
       // 4 vertex per face x n faces
       for(let i = 0; i< vertexPerCircle; i++){
-        let x = Math.round(r* Math.cos(degree * Math.PI / 180));
-        let z = Math.round(r* Math.sin(degree * Math.PI / 180));
+        let x = (r* Math.cos(degree * Math.PI / 180));
+        let z = (r* Math.sin(degree * Math.PI / 180));
         
         let vertex1 = [x, y, z];
         let vertex2 = [x, -y, z];
         vertices.push(vertex1);
-        vertices.push(vertex2);
+        // vertices.push(vertex2);
 
         degree = degree + degIncrement;
         
 
-        x = Math.round(r* Math.cos(degree * Math.PI / 180));
-        z = Math.round(r* Math.sin(degree * Math.PI / 180));
+        x = (r* Math.cos(degree * Math.PI / 180));
+        z = (r* Math.sin(degree * Math.PI / 180));
         
         let vertex3 = [x, y, z];
         let vertex4 = [x, -y, z];
         vertices.push(vertex3);
+
+        
         vertices.push(vertex4);
+        vertices.push(vertex2);
 
       }
 
@@ -133,13 +136,13 @@ function start() {
 
       for(let i = 0; i< vertexPerCircle; i++){
         
-        let x1 = Math.floor(r* Math.cos(degree * Math.PI / 180));
-        let z1 = Math.floor(r* Math.sin(degree * Math.PI / 180));
+        let x1 = (r* Math.cos(degree * Math.PI / 180));
+        let z1 = (r* Math.sin(degree * Math.PI / 180));
 
         degree = degree + degIncrement;
         
-        let x2 = Math.floor(r* Math.cos(degree * Math.PI / 180));
-        let z2 = Math.floor(r* Math.sin(degree * Math.PI / 180));
+        let x2 = (r* Math.cos(degree * Math.PI / 180));
+        let z2 = (r* Math.sin(degree * Math.PI / 180));
 
         let midX = (x1+ x2)/2;
         let midZ = (z1+ z2)/2;
@@ -189,6 +192,8 @@ function start() {
     }
 
     vertexColors = cylinderVertexColorGenerator(numberOfVerticesInXY,1);
+
+
     
     // vertex texture coordinates
     // var vertexTextureCoords = new Float32Array( // CHANGED
@@ -220,9 +225,9 @@ function start() {
     var vertexTextureCoords = cylinderVertexTextureCoordsGenerator(numberOfVerticesInXY,1);
 
     // var vertexTextureCoords = new Float32Array( // CHANGED
-    //   [  0, 0,   1, 0,   1, 1,   0, 1,
-    //      1, 0,   1, 1,   0, 1,   0, 0,
-    //      0, 1,   0, 0,   1, 0,   1, 1,
+    //   [  0, 0,   1, 0,   0, 1,   1, 1,
+    //      0, 0,   1, 0,   0, 1,   1, 1,
+    //      0, 0,   1, 0,   1, 1,   0, 1,
     //      0, 0,   1, 0,   1, 1,   0, 1]);
 
     // element index array
@@ -254,6 +259,13 @@ function start() {
     }
 
     var triangleIndices = cylinderTriangleIndicesGenerator(numberOfVerticesInXY,1);
+
+
+    // var triangleIndices = new Uint8Array( // CHANGED
+    //     [  1, 2, 0,   0, 3, 2,    // front
+    //        4, 5, 6,   4, 6, 7,    // right
+    //        8, 9,10,   8,10,11,    // top
+    //       12,13,14,  12,14,15]); // back
     
 
     // we need to put the vertices into a buffer so we can
