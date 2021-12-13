@@ -69,7 +69,7 @@ function start() {
 
     // Data ...
 
-    var numberOfVerticesInXY = 10; // 50 good effect
+    var numberOfVerticesInXY = 50; // 50 good effect
     
     // vertex positions
     // var vertexPos = new Float32Array( // CHANGED
@@ -334,8 +334,11 @@ function start() {
     {
       image1.onload = function() { loadTexture(image1,texture1); };
       image1.crossOrigin = "anonymous";
-      image1.src = "https://farm6.staticflickr.com/5564/30725680942_e3bfe50e5e_b.jpg"; // dog
-      //image1.src = "https://farm6.staticflickr.com/65535/51743905629_b4f643b3af_b.jpg";
+      //image1.src = "https://farm6.staticflickr.com/5564/30725680942_e3bfe50e5e_b.jpg"; // dog
+      //image1.src = "https://farm6.staticflickr.com/65535/51742440237_078acccda6_b.jpg"; // redbull
+      image1.src = "https://farm6.staticflickr.com/5726/30206830053_87e9530b48_b.jpg"; // checkered box
+      //image1.src = "https://live.staticflickr.com/65535/50641871583_53456f6ebc_b.jpg" //wood
+      
 
       image2.onload = function() { loadTexture(image2,texture2); };
       image2.crossOrigin = "anonymous";
