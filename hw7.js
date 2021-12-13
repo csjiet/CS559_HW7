@@ -346,13 +346,16 @@ function start() {
 
     function initTextureThenDraw() // CHANGED
     {
+
+      // All image should be set to resolution of 24x24/ 240x240/ ... before getting the link and place with _b at the end
+
       image1.onload = function() { loadTexture(image1,texture1); };
       image1.crossOrigin = "anonymous";
       //image1.src = "https://farm6.staticflickr.com/5564/30725680942_e3bfe50e5e_b.jpg"; // dog
       //image1.src = "https://live.staticflickr.com/65535/51743890412_4e41a324ce_b.jpg"; // redbull
       //image1.src = "https://farm6.staticflickr.com/5726/30206830053_87e9530b48_b.jpg"; // checkered box
       //image1.src = "https://live.staticflickr.com/65535/50641871583_53456f6ebc_b.jpg" //wood
-      image1.src = "https://live.staticflickr.com/65535/51744974313_b599e4e35d_b.jpg";
+      image1.src = "https://live.staticflickr.com/65535/51744974313_b599e4e35d_b.jpg"; // coca cola
       //image1.src = "https://live.staticflickr.com/65535/51745015808_9c0e2b0352_b.jpg";
       
 
@@ -360,7 +363,7 @@ function start() {
       image2.crossOrigin = "anonymous";
       //image2.src = "https://farm6.staticflickr.com/5726/30206830053_87e9530b48_b.jpg"; // checkered box
       //image2.src = "https://farm6.staticflickr.com/5323/30998511026_c90053af9c_o.jpg"; // bump
-      image2.src = "https://live.staticflickr.com/65535/51744799156_0899e5dd38_b.jpg";
+      image2.src = "https://live.staticflickr.com/65535/51744799156_0899e5dd38_b.jpg"; // GLASS texture
       
 
       image3.onload = function() { loadTexture(image3,texture3); };
