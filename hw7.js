@@ -365,8 +365,8 @@ function start() {
       image2.onload = function() { loadTexture(image2,texture2); };
       image2.crossOrigin = "anonymous";
       //image2.src = "https://farm6.staticflickr.com/5726/30206830053_87e9530b48_b.jpg"; // checkered box
-      //image2.src = "https://farm6.staticflickr.com/5323/30998511026_c90053af9c_o.jpg"; // bump
-      image2.src = "https://live.staticflickr.com/65535/51744799156_0899e5dd38_b.jpg"; // GLASS texture
+      image2.src = "https://farm6.staticflickr.com/5323/30998511026_c90053af9c_o.jpg"; // bump
+      //image2.src = "https://live.staticflickr.com/65535/51744799156_0899e5dd38_b.jpg"; // GLASS texture
       
 
       image3.onload = function() { loadTexture(image3,texture3); };
