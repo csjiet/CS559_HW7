@@ -1,5 +1,7 @@
 function start() {
 
+  // Cite: Code template resembles class examples from professor Eftychios Sifakis
+
     // Get canvas, WebGL context, twgl.m4
     var canvas = document.getElementById("mycanvas");
     var gl = canvas.getContext("webgl");
@@ -183,7 +185,8 @@ function start() {
         let midZ = (z1+ z2)/2;
 
         for(let e = 0; e< 4; e++){
-          vertices.push([midX, -y, midZ]);
+          //vertices.push([midX, -y, midZ]);
+          vertices.push([0, -y, 0]);
         }
 
       }
