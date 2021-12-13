@@ -10,9 +10,12 @@ function start() {
     var slider2 = document.getElementById('slider2');
     slider2.value = 0;
 
+    var button1 = document.getElementById('button1');
+
+
     // Read shader source
     var vertexSource = document.getElementById("vertexShader").text;
-    var fragmentSource = document.getElementById("fragmentShader").text;
+    var fragmentSource = document.getElementById("fragmentShader2").text;
 
     // Compile vertex shader
     var vertexShader = gl.createShader(gl.VERTEX_SHADER);
@@ -61,10 +64,12 @@ function start() {
     gl.uniform1i(shaderProgram.texSampler1, 0);
     shaderProgram.texSampler2 = gl.getUniformLocation(shaderProgram, "texSampler2");
     gl.uniform1i(shaderProgram.texSampler2, 1);
+    shaderProgram.texSampler3 = gl.getUniformLocation(shaderProgram, "texSampler3");
+    gl.uniform1i(shaderProgram.texSampler3, 2);
 
     // Data ...
 
-    var numberOfVerticesInXY = 50;
+    var numberOfVerticesInXY = 10; // 50 good effect
     
     // vertex positions
     // var vertexPos = new Float32Array( // CHANGED
@@ -319,15 +324,29 @@ function start() {
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
     var image2 = new Image();
 
+    var texture3 = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE2);
+    gl.bindTexture(gl.TEXTURE_2D, texture3);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+    var image3 = new Image();
+
     function initTextureThenDraw() // CHANGED
     {
       image1.onload = function() { loadTexture(image1,texture1); };
       image1.crossOrigin = "anonymous";
-      image1.src = "https://farm6.staticflickr.com/5564/30725680942_e3bfe50e5e_b.jpg";
+      image1.src = "https://farm6.staticflickr.com/5564/30725680942_e3bfe50e5e_b.jpg"; // dog
 
       image2.onload = function() { loadTexture(image2,texture2); };
       image2.crossOrigin = "anonymous";
-      image2.src = "https://farm6.staticflickr.com/5726/30206830053_87e9530b48_b.jpg";
+      //image2.src = "https://farm6.staticflickr.com/5726/30206830053_87e9530b48_b.jpg"; // checkered box
+      image2.src = "https://farm6.staticflickr.com/5323/30998511026_c90053af9c_o.jpg"; // bump
+      
+
+      image3.onload = function() { loadTexture(image3,texture3); };
+      image3.crossOrigin = "anonymous";
+      image3.src = "https://live.staticflickr.com/65535/50641908943_f6ebfef28d_o.jpg"; // circle
+      //image3.src = "https://farm6.staticflickr.com/65535/50642695166_f0396c190a_m.jpg";
+    
 
       window.setTimeout(draw,200);
     }
@@ -405,16 +424,25 @@ function start() {
 	    // Bind texture
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_2D, texture1);
-        gl.activeTexture(gl.TEXTURE1);
+        gl.activeTexture(gl.TEXTURE1); // gl.TEXTURE1 == texture2 checkered box
         gl.bindTexture(gl.TEXTURE_2D, texture2);
+        gl.activeTexture(gl.TEXTURE2); 
+        gl.bindTexture(gl.TEXTURE_2D, texture3);
 
         // Do the drawing
         gl.drawElements(gl.TRIANGLES, triangleIndices.length, gl.UNSIGNED_BYTE, 0);
+        
 
+    }
+
+    function pepsi(){
+          
+      return null;
     }
 
     slider1.addEventListener("input",draw);
     slider2.addEventListener("input",draw);
+    button1.addEventListener("click", pepsi);
     initTextureThenDraw();
 }
 
