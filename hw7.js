@@ -69,7 +69,7 @@ function start() {
 
     // Data ...
 
-    var numberOfVerticesInXY = 50; // 50 good effect
+    var numberOfVerticesInXY = 30; // 50 good effect
     
     // vertex positions
     // var vertexPos = new Float32Array( // CHANGED
@@ -96,7 +96,7 @@ function start() {
         let vertex1 = [x, y, z];
         let vertex2 = [x, -y, z];
         vertices.push(vertex1);
-        // vertices.push(vertex2);
+       
 
         degree = degree + degIncrement;
         
@@ -106,6 +106,34 @@ function start() {
         
         let vertex3 = [x, y, z];
         let vertex4 = [x, -y, z];
+        vertices.push(vertex3);
+
+        
+        vertices.push(vertex4);
+        vertices.push(vertex2);
+
+      }
+
+      degree = 0;
+      for(let i = 0; i< vertexPerCircle; i++){
+        let x = (r* Math.cos(degree * Math.PI / 180));
+        let z = (r* Math.sin(degree * Math.PI / 180));
+        
+        //let vertex1 = [x, y, z];
+        let vertex1 = [x, -y, z];
+        let vertex2 = [0, -y, 0];
+        vertices.push(vertex1);
+       
+
+        degree = degree + degIncrement;
+        
+
+        x = (r* Math.cos(degree * Math.PI / 180));
+        z = (r* Math.sin(degree * Math.PI / 180));
+        
+        //let vertex3 = [x, y, z];
+        let vertex3 = [x, -y, z];
+        let vertex4 = [0, -y, 0];
         vertices.push(vertex3);
 
         
@@ -135,7 +163,7 @@ function start() {
     function cylinderVertexNormalGenerator(vertexPerCircle, height){
       var vertices = [];
       var r = 1;
-      var z = 1;
+      var y = 1;
       var degree = 0;
       var degIncrement = 360/ vertexPerCircle;
 
@@ -154,6 +182,26 @@ function start() {
 
         for(let e = 0; e< 4; e++){
           vertices.push([midX, 0, midZ]);
+        }
+
+      }
+
+      degree = 0;
+      for(let i = 0; i< vertexPerCircle; i++){
+        
+        let x1 = (r* Math.cos(degree * Math.PI / 180));
+        let z1 = (r* Math.sin(degree * Math.PI / 180));
+
+        degree = degree + degIncrement;
+        
+        let x2 = (r* Math.cos(degree * Math.PI / 180));
+        let z2 = (r* Math.sin(degree * Math.PI / 180));
+
+        let midX = (x1+ x2)/2;
+        let midZ = (z1+ z2)/2;
+
+        for(let e = 0; e< 4; e++){
+          vertices.push([midX, -y, midZ]);
         }
 
       }
@@ -178,10 +226,14 @@ function start() {
 
     function cylinderVertexColorGenerator(vertexPerCircle, height){
       var vertices = [];
-      var r = 1;
-      var z = 1;
-      var degree = 0;
-      var degIncrement = 360/ vertexPerCircle;
+
+      for(let i = 0; i< vertexPerCircle; i++){
+        
+        for(let e = 0; e< 4; e++){
+          vertices.push([1, 0, 0]);
+        }
+
+      }
 
       for(let i = 0; i< vertexPerCircle; i++){
         
@@ -211,10 +263,12 @@ function start() {
 
     function cylinderVertexTextureCoordsGenerator(vertexPerCircle, height){
       var vertices = [];
-      var r = 1;
-      var z = 1;
-      var degree = 0;
-      var degIncrement = 360/ vertexPerCircle;
+
+      for(let i = 0; i< vertexPerCircle; i++){
+        
+        vertices.push([0, 0,   1, 0,   1, 1,   0, 1]);
+
+      }
 
       for(let i = 0; i< vertexPerCircle; i++){
         
@@ -246,13 +300,9 @@ function start() {
 
     function cylinderTriangleIndicesGenerator(vertexPerCircle, height){
       var vertices = [];
-      var r = 1;
-      var z = 1;
-      var degree = 0;
-      var degIncrement = 360/ vertexPerCircle;
 
       var vNumber = 0;
-      for(let i= 0; i< vertexPerCircle; i++){
+      for(let i= 0; i< vertexPerCircle*2; i++){
         var tI = [vNumber, vNumber+1, vNumber+2, vNumber, vNumber+2, vNumber+3];
         vNumber = vNumber + 4;
         vertices.push(tI);
@@ -280,7 +330,7 @@ function start() {
     gl.bufferData(gl.ARRAY_BUFFER, vertexPos, gl.STATIC_DRAW);
     trianglePosBuffer.itemSize = 3; // CHANGED
     //trianglePosBuffer.numItems = 24; // CHANGED
-    trianglePosBuffer.numItems = 4 * numberOfVerticesInXY; // CHANGED
+    trianglePosBuffer.numItems = 4 * (numberOfVerticesInXY*2); // CHANGED
     
     // a buffer for normals
     var triangleNormalBuffer = gl.createBuffer();
@@ -288,7 +338,7 @@ function start() {
     gl.bufferData(gl.ARRAY_BUFFER, vertexNormals, gl.STATIC_DRAW);
     triangleNormalBuffer.itemSize = 3; // CHANGED
     //triangleNormalBuffer.numItems = 24; // CHANGED
-    triangleNormalBuffer.numItems = 4* numberOfVerticesInXY; // CHANGED
+    triangleNormalBuffer.numItems = 4* (numberOfVerticesInXY*2); // CHANGED
     
     // a buffer for colors
     var colorBuffer = gl.createBuffer();
@@ -296,7 +346,7 @@ function start() {
     gl.bufferData(gl.ARRAY_BUFFER, vertexColors, gl.STATIC_DRAW);
     colorBuffer.itemSize = 3; // CHANGED
     //colorBuffer.numItems = 24; // CHANGED
-    colorBuffer.numItems = 4* numberOfVerticesInXY; // CHANGED
+    colorBuffer.numItems = 4* (numberOfVerticesInXY*2); // CHANGED
 
     // a buffer for textures
     var textureBuffer = gl.createBuffer();
@@ -304,7 +354,7 @@ function start() {
     gl.bufferData(gl.ARRAY_BUFFER, vertexTextureCoords, gl.STATIC_DRAW);
     textureBuffer.itemSize = 2; // CHANGED
     //textureBuffer.numItems = 24; // CHANGED
-    textureBuffer.numItems = 4* numberOfVerticesInXY; // CHANGED
+    textureBuffer.numItems = 4* (numberOfVerticesInXY*2); // CHANGED
 
     // a buffer for indices
     var indexBuffer = gl.createBuffer();
